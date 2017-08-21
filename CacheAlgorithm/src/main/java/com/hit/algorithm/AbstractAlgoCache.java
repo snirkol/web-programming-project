@@ -7,3 +7,4 @@ public abstract class AbstractAlgoCache<K, V> implements IAlgoCache<K, V> {
 		this.capacity = capacity;
 	}
 }
+
