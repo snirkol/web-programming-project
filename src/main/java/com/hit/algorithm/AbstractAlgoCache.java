@@ -20,5 +20,6 @@ public abstract class AbstractAlgoCache<K,V> implements IAlgoCache<K, V>{
 	public abstract V putElement(K key, V value);
 	
 	public abstract void removeElement(K key);
+	
 		
 }
