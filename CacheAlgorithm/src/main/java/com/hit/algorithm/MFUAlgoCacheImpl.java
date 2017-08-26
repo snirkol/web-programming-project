@@ -3,9 +3,9 @@ package com.hit.algorithm;
 import java.util.HashMap;
 
 public class MFUAlgoCacheImpl<K,V> extends AbstractAlgoCache<K, V>{
-	private Node<K,V> head;
-	private Node<K,V> tail;
-	private HashMap<K,Node<K,V>> map  = new HashMap<K,Node<K,V>>();
+	private NodeWithAge<K,V> head;
+	private NodeWithAge<K,V> tail;
+	private HashMap<K,NodeWithAge<K,V>> map  = new HashMap<K,NodeWithAge<K,V>>();
 	
 	public MFUAlgoCacheImpl(int capacity) {
 		super(capacity);
@@ -19,42 +19,42 @@ public class MFUAlgoCacheImpl<K,V> extends AbstractAlgoCache<K, V>{
 		if(!map.containsKey(key))
 			return null;
 		
-			Node<K,V> tempNode = map.get(key);
+			NodeWithAge<K,V> tempNode = map.get(key);
 			this.remove(tempNode);
 			tempNode.increaseAge();
 			this.findPlace(tempNode);
 			return tempNode.getValue();
 	}
 
-	private void findPlace(Node<K,V> n) {
-		Node<K,V> currNode = head;
+	private void findPlace(NodeWithAge<K,V> n) {
+		NodeWithAge<K,V> currNode = head;
 		if(head== null){
 			head=n;
 			return;
 		}
-		while((n.getAge()<currNode.getAge())&&(currNode.getpre()!=null))
+		while((n.getAge()<currNode.getAge())&&(currNode.getPre()!=null))
 		{
-				currNode = currNode.getpre();
+				currNode=(NodeWithAge<K, V>) currNode.getPre();
 		}
 		n.setNext(currNode);
-		n.setPre(currNode.getpre());
+		n.setPre(currNode.getPre());
 		
 		currNode.setPre(n);
-		if(n.getpre()!=null)
-			n.getpre().setNext(n);
+		if(n.getPre()!=null)
+			n.getPre().setNext(n);
 	}
 
-	private void remove(Node<K,V> n) {
-		if(n.getpre()!=null){
-			n.getpre().setNext(n.getNext());
+	private void remove(NodeWithAge<K,V> n) {
+		if(n.getPre()!=null){
+			n.getPre().setNext(n.getNext());
 		}else{
-			head = n.getNext();
+			head = (NodeWithAge<K, V>) n.getNext();
 		}
 	}
 
 	@Override
 	public V putElement(K key, V value) {
-		Node<K,V> n = new Node<K,V>(key,value);
+		NodeWithAge<K,V> n = new NodeWithAge<K,V>(key,value);
 		map.put(key,n);
 		findPlace(map.get(key));
 		return null;
@@ -64,7 +64,7 @@ public class MFUAlgoCacheImpl<K,V> extends AbstractAlgoCache<K, V>{
 	public void removeElement(K key) {
 		if(!map.containsKey(key))
 			return;
-		Node<K,V> tempNode = new Node<K,V>(key,map.get(key).getValue());
+		NodeWithAge<K,V> tempNode = new NodeWithAge<K,V>(key,map.get(key).getValue());
 		remove(tempNode);
 		map.remove(key);
 	}
