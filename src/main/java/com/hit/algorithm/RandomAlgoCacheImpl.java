@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class cacheRandom<K,V> extends AbstractAlgoCache<K, V>{
+public class RandomAlgoCacheImpl<K,V> extends AbstractAlgoCache<K, V>{
 	private HashMap<K, V> map;
 	
-	public cacheRandom(int capacity) {
+	public RandomAlgoCacheImpl(int capacity) {
 		super(capacity);
 		this.map=new HashMap<K,V>();
 	}
