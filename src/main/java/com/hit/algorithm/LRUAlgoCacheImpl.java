@@ -10,8 +10,8 @@ public class LRUAlgoCacheImpl<K,V> extends AbstractAlgoCache<K, V>{
 	public LRUAlgoCacheImpl(int capacity) {
 		super(capacity);
 		this.map=new HashMap<K,Node<K,V>>();
-		this.setHead(null);
-		this.setEnd(null);
+		this.head=null;
+		this.end=null;
 	}
 	
 	@Override
@@ -61,14 +61,12 @@ public class LRUAlgoCacheImpl<K,V> extends AbstractAlgoCache<K, V>{
 		Node<K, V> toRemove=map.get(key);
         if(toRemove.getPre()!=null){
         	toRemove.getPre().setNext(toRemove.getNext());
-        	toRemove.getNext().setPre(toRemove.getPre());
         }else{
             setHead(toRemove.getNext());
         }
  
         if(toRemove.getNext()!=null){
         	toRemove.getNext().setPre(toRemove.getPre());
-        	toRemove.getPre().setNext(toRemove.getNext());
         }else{
         	setEnd(toRemove.getPre());
         }
@@ -79,16 +77,23 @@ public class LRUAlgoCacheImpl<K,V> extends AbstractAlgoCache<K, V>{
 	}
 
 	public void setHead(Node<K, V> head) {
-        head.setNext(this.head);
-        head.setPre(null);
- 
-        if(this.head!=null)
-            this.head.setPre(head);
- 
-        this.head = head;
- 
-        if(this.end ==null)
-            this.end = head;
+		if(this.head==null){
+			this.head=head;
+			this.end=head;
+		}else{
+			if(head!=null){
+		        head.setNext(this.head);
+		        head.setPre(null);
+			}
+	 
+	        if(this.head!=null)
+	            this.head.setPre(head);
+	 
+	        this.head = head;
+	 
+	        if(this.end ==null)
+	            this.end = head;
+		}
 	}
 
 	public Node<K, V> getEnd() {

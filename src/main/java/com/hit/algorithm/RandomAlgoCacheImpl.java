@@ -23,21 +23,17 @@ public class RandomAlgoCacheImpl<K,V> extends AbstractAlgoCache<K, V>{
 
 	@Override
 	public V putElement(K key, V value) {
-        if(map.containsKey(key)){
-        	V oldValue=map.get(key);
-            map.put(key, value);
-            return oldValue;
-        }else{
-        	if(map.size()>=getCapacity()){
-        		Random random=new Random();
-        		List<K> keys = new ArrayList<K>(map.keySet());
-        		K randomKey = keys.get(random.nextInt(keys.size()));
-        		removeElement(randomKey);
-        		map.put(key, value);
-        	}else{
-        		map.put(key, value);
-        	}
-        }
+    	if(map.size()>=getCapacity()){
+    		Random random=new Random();
+    		List<K> keys = new ArrayList<K>(map.keySet());
+    		K randomKey = keys.get(random.nextInt(keys.size()));
+        	V removeValue=map.get(randomKey);
+    		removeElement(randomKey);
+    		map.put(key, value);
+    		return removeValue;
+    	}else{
+    		map.put(key, value);
+    	}
         
         return null;
 	}
