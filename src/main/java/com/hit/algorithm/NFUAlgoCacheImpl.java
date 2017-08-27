@@ -4,13 +4,11 @@ import java.util.HashMap;
 
 public class NFUAlgoCacheImpl<K,V> extends AbstractAlgoCache<K, V>{
 	private NodeWithAge<K,V> head;
-	private NodeWithAge<K,V> tail;
 	private HashMap<K,NodeWithAge<K,V>> map  = new HashMap<K,NodeWithAge<K,V>>();
 	
 	public NFUAlgoCacheImpl(int capacity) {
 		super(capacity);
 		this.head = null;
-		this.tail = null;
 	}
 
 	@Override

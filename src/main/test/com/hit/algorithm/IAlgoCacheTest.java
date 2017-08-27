@@ -5,34 +5,45 @@ import com.hit.algorithm.IAlgoCache;
 import com.hit.algorithm.NFUAlgoCacheImpl;
 
 import org.junit.Assert;
-
 import org.junit.Test;
 
+import com.hit.algorithm.LRUAlgoCacheImpl;
+
 public class IAlgoCacheTest {
-
-@	Test
-	public void test()
-	{
-		//fail("Not yet implemented");
-		NFUTest();
+	@Test
+	public void testInsertValue() {
+	   IAlgoCache<Integer, Integer> lru = new LRUAlgoCacheImpl<>(5);
+	   lru.putElement(0, 5);
+	   Integer val = lru.getElement(0);
+	   Assert.assertEquals((Integer)5, val);
 	}
-
-public void NFUTest()
-{
-	//check putElement
-	IAlgoCache<Integer, Integer> nfu = new NFUAlgoCacheImpl<>(5);
-	nfu.putElement(0,4);
-	Integer actual = nfu.getElement(0);
-	Assert.assertEquals((Integer)4,actual);
 	
-	nfu.putElement(0,4);
-	actual = nfu.getElement(0);
-	Assert.assertEquals((Integer)4,actual);
+	@Test
+	public void testRemoveElement(){
+		IAlgoCache<Integer, Integer> lru = new LRUAlgoCacheImpl<>(5);
+		lru.putElement(1, 8);
+		lru.removeElement(1);
+		Integer val = lru.getElement(0);
+		Assert.assertEquals(null, val);
+	}
 	
-	//check removeElement
-	nfu.removeElement(0);
-	actual = nfu.getElement(0);
-	assertEquals(null, actual);
-}
+	@Test
+	public void NFUTest()
+	{
+		//check putElement
+		IAlgoCache<Integer, Integer> nfu = new NFUAlgoCacheImpl<>(5);
+		nfu.putElement(0,4);
+		Integer actual = nfu.getElement(0);
+		Assert.assertEquals((Integer)4,actual);
+		
+		nfu.putElement(0,4);
+		actual = nfu.getElement(0);
+		Assert.assertEquals((Integer)4,actual);
+		
+		//check removeElement
+		nfu.removeElement(0);
+		actual = nfu.getElement(0);
+		assertEquals(null, actual);
+	}
 
 }
