@@ -37,9 +37,28 @@ public class IAlgoCacheTest {
 	@Test
 	public void testNFURemoveElement(){
 		IAlgoCache<Integer, Integer> nfu = new NFUAlgoCacheImpl<>(5);
+		nfu.putElement(0,4);
 		nfu.removeElement(0);
 		Integer actual = nfu.getElement(0);
 		assertEquals(null, actual);
+	}
+	
+	@Test
+	public void testNFPutElementOverCapacity()
+	{
+		IAlgoCache<Integer,Integer> nfu = new NFUAlgoCacheImpl<>(2);
+		nfu.putElement(0, 4);
+		Integer actual = nfu.getElement(0);
+		assertEquals((Integer)4, actual);
+		nfu.putElement(1, 5);
+		
+		nfu.putElement(2, 6);
+		actual = nfu.getElement(0);
+		assertEquals((Integer)4, actual);
+		actual = nfu.getElement(1);
+		assertEquals(null, actual);
+		actual = nfu.getElement(2);
+		assertEquals((Integer)6, actual);
 	}
 
 }

@@ -19,7 +19,7 @@ public class NFUAlgoCacheImpl<K,V> extends AbstractAlgoCache<K, V>{
 			return null;
 		
 		NodeWithAge<K,V> tempNode = map.get(key);
-		this.remove(tempNode);
+		this.list.removeNode(tempNode);
 		tempNode.increaseAge();
 		this.findPlace(tempNode);
 		return tempNode.getValue();
@@ -31,40 +31,45 @@ public class NFUAlgoCacheImpl<K,V> extends AbstractAlgoCache<K, V>{
 			list.setHead(n);
 			return;
 		}
-		while((n.getAge()<currNode.getAge())&&(currNode.getPre()!=null))
-		{
-				currNode=(NodeWithAge<K, V>) currNode.getPre();
-		}
-		n.setNext(currNode);
-		n.setPre(currNode.getPre());
+		if(this.list.getHead() == this.list.getTail())
+			this.list.setTail(n);
 		
+		while((n.getAge()<currNode.getAge())&&(currNode.getNext()!=null))
+				currNode=(NodeWithAge<K, V>) currNode.getNext();
+		n.setNext(currNode);
+		if(currNode.getPre()!=null)
+			n.setPre(currNode.getPre());
 		currNode.setPre(n);
-		if(n.getPre()!=null)
+		if(n.getPre()!=null) 
 			n.getPre().setNext(n);
-	}
 
-	private void remove(NodeWithAge<K,V> n) {
-		if(n.getPre()!=null){
-			n.getPre().setNext(n.getNext());
-		}else{
-			list.setHead((NodeWithAge<K, V>) n.getNext());
-		}
 	}
-
+	
 	@Override
 	public V putElement(K key, V value) {
+		if(map.containsKey(key))
+			return getElement(key);
+		
+		V deletedPage = null;
+		if(this.getCapacity()<=map.size())
+		{
+			deletedPage =this.list.getTail().getValue();
+			this.removeElement(list.getTail().getKey());
+		}
+			
+		
 		NodeWithAge<K,V> n = new NodeWithAge<K,V>(key,value);
 		map.put(key,n);
-		findPlace(map.get(key));
-		return null;
-	}
+		findPlace(n);
+		return deletedPage;
+		}
 
 	@Override
 	public void removeElement(K key) {
 		if(!map.containsKey(key))
 			return;
 		NodeWithAge<K,V> tempNode = new NodeWithAge<K,V>(key,map.get(key).getValue());
-		remove(tempNode);
+		this.list.removeNode(tempNode);
 		map.remove(key);
 	}
 }

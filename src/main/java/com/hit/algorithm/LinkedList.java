@@ -13,18 +13,18 @@ public class LinkedList<K,V> {
 		return head;
 	}
 
-	public void setHead(Node<K,V> head) {
+	public void setHead(Node<K,V> tempNode) {
 		if(this.head==null){
-			this.head=head;
-			this.tail=head;
+			this.head=tempNode;
+			this.tail=tempNode;
 		}else{
-			if(head!=null){
-		        head.setNext(this.head);
-		        head.setPre(null);
+			if(tempNode!=null){
+		        tempNode.setNext(this.head);
+		        tempNode.setPre(null);
 			}
 			
-	        this.head.setPre(head);
-	        this.head = head;
+	        this.head.setPre(tempNode);
+	        this.head = tempNode;
 		}
 	}
 
