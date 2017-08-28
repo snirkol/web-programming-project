@@ -32,12 +32,14 @@ public class LinkedList<K,V> {
 		return tail;
 	}
 
-	public void setTail(Node<K,V> tail) {
+	public void setTail(Node<K,V> node) {
 		if(this.tail!=null){
-			this.tail.setNext(tail);
-			tail.setPre(this.tail);
+			this.tail.setNext(node);
 		}
-		this.tail=tail;
+		if(node!=null){
+			node.setPre(this.tail);
+		}
+		this.tail=node;
 	}
 	
 	public void removeNode(Node<K,V> toRemove){
