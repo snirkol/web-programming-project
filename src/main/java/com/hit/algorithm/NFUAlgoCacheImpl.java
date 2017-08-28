@@ -3,12 +3,12 @@ package com.hit.algorithm;
 import java.util.HashMap;
 
 public class NFUAlgoCacheImpl<K,V> extends AbstractAlgoCache<K, V>{
-	private NodeWithAge<K,V> head;
+	private LinkedList<K, V> list;
 	private HashMap<K,NodeWithAge<K,V>> map  = new HashMap<K,NodeWithAge<K,V>>();
 	
 	public NFUAlgoCacheImpl(int capacity) {
 		super(capacity);
-		this.head = null;
+		this.list=new LinkedList<>();
 	}
 
 	@Override
@@ -25,9 +25,9 @@ public class NFUAlgoCacheImpl<K,V> extends AbstractAlgoCache<K, V>{
 	}
 
 	private void findPlace(NodeWithAge<K,V> n) {
-		NodeWithAge<K,V> currNode = head;
-		if(head== null){
-			head=n;
+		NodeWithAge<K,V> currNode = (NodeWithAge<K, V>) list.getHead();
+		if(list.getHead()== null){
+			list.setHead(n);
 			return;
 		}
 		while((n.getAge()<currNode.getAge())&&(currNode.getPre()!=null))
@@ -46,7 +46,7 @@ public class NFUAlgoCacheImpl<K,V> extends AbstractAlgoCache<K, V>{
 		if(n.getPre()!=null){
 			n.getPre().setNext(n.getNext());
 		}else{
-			head = (NodeWithAge<K, V>) n.getNext();
+			list.setHead((NodeWithAge<K, V>) n.getNext());
 		}
 	}
 
