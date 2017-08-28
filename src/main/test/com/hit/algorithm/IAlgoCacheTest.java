@@ -28,21 +28,17 @@ public class IAlgoCacheTest {
 	}
 	
 	@Test
-	public void NFUTest()
-	{
-		//check putElement
+	public void testNFUPutElement(){
 		IAlgoCache<Integer, Integer> nfu = new NFUAlgoCacheImpl<>(5);
 		nfu.putElement(0,4);
 		Integer actual = nfu.getElement(0);
 		Assert.assertEquals((Integer)4,actual);
-		
-		nfu.putElement(0,4);
-		actual = nfu.getElement(0);
-		Assert.assertEquals((Integer)4,actual);
-		
-		//check removeElement
+	}
+	@Test
+	public void testNFURemoveElement(){
+		IAlgoCache<Integer, Integer> nfu = new NFUAlgoCacheImpl<>(5);
 		nfu.removeElement(0);
-		actual = nfu.getElement(0);
+		Integer actual = nfu.getElement(0);
 		assertEquals(null, actual);
 	}
 

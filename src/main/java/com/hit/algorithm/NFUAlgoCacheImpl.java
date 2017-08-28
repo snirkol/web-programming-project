@@ -9,6 +9,7 @@ public class NFUAlgoCacheImpl<K,V> extends AbstractAlgoCache<K, V>{
 	public NFUAlgoCacheImpl(int capacity) {
 		super(capacity);
 		this.list=new LinkedList<>();
+		this.map  = new HashMap<K,NodeWithAge<K,V>>();
 	}
 
 	@Override
